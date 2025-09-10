@@ -1,18 +1,13 @@
-const express = require("express");
+const request = require('supertest');
+const express = require('express');
+
 const app = express();
-const PORT = process.env.PORT || 3000;
+app.get('/', (req, res) => res.send('Hello, World! 🚀'));
 
-// Home route
-app.get("/", (req, res) => {
-  res.send("Hello, World! 🚀");
-});
-
-// Example API route
-app.get("/api", (req, res) => {
-  res.json({ message: "Welcome to my API!" });
-});
-
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+describe('GET /', () => {
+  it('responds with Hello, World!', async () => {
+    const res = await request(app).get('/');
+    expect(res.text).toBe('Hello, World! 🚀');
+    expect(res.statusCode).toBe(200);
+  });
 });
